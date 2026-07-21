@@ -1,25 +1,136 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Biblioteca Ingeniería Eléctrica</title>
-</head>
+{% block title %}
+Inicio
+{% endblock %}
 
-<body>
 
-    <h1>Biblioteca Ingeniería Eléctrica</h1>
+{% block content %}
 
-    <hr>
+<div class="container">
 
-    <a href="/admin">
-        <button>Administrador</button>
-    </a>
+    <!-- Encabezado principal -->
+    <div class="text-center mb-5">
 
-    <a href="/publico">
-        <button>Público General</button>
-    </a>
+        <h1 class="display-4 fw-bold">
+            Biblioteca Ingeniería Eléctrica
+        </h1>
 
-</body>
+        <p class="lead text-muted mt-3">
+            Sistema de gestión y consulta bibliográfica
+        </p>
 
-</html>
+        <p class="text-secondary">
+            Encuentra libros, consulta disponibilidad y administra el inventario de la biblioteca.
+        </p>
+
+    </div>
+
+
+    <!-- Tarjetas principales -->
+
+    <div class="row justify-content-center g-4">
+
+
+        <!-- Administrador -->
+
+        <div class="col-md-5">
+
+            <div class="card h-100 shadow-sm border-0 text-center p-4">
+
+                <div class="card-body">
+
+                    <div class="mb-4">
+
+                        <i class="bi bi-person-workspace display-3 text-primary"></i>
+
+                    </div>
+
+
+                    <h3 class="card-title fw-bold">
+                        Administrador
+                    </h3>
+
+
+                    <p class="card-text text-muted">
+
+                        Gestiona el inventario de libros, agrega nuevos ejemplares,
+                        modifica información y administra la biblioteca.
+
+                    </p>
+
+
+                    <a href="/admin" class="btn btn-primary btn-lg mt-3">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Ingresar
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Público General -->
+
+        <div class="col-md-5">
+
+            <div class="card h-100 shadow-sm border-0 text-center p-4">
+
+                <div class="card-body">
+
+
+                    <div class="mb-4">
+
+                        <i class="bi bi-search display-3 text-primary"></i>
+
+                    </div>
+
+
+
+                    <h3 class="card-title fw-bold">
+
+                        Público General
+
+                    </h3>
+
+
+
+                    <p class="card-text text-muted">
+
+                        Consulta los libros disponibles, busca por nombre,
+                        autor o categoría y revisa la información bibliográfica.
+
+                    </p>
+
+
+
+                    <a href="/publico" class="btn btn-outline-primary btn-lg mt-3">
+
+                        <i class="bi bi-book"></i>
+
+                        Buscar libros
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

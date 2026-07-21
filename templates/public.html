@@ -1,17 +1,253 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Público</title>
-</head>
 
-<body>
+{% block title %}
+Público General
+{% endblock %}
 
-    <h1>Biblioteca Pública</h1>
 
-    <a href="/">Volver al inicio</a>
 
-</body>
+{% block content %}
 
-</html>
+<div class="container">
+
+
+    <!-- Encabezado -->
+
+    <div class="text-center mb-5">
+
+
+        <h1 class="display-5 fw-bold">
+
+            Biblioteca Pública
+
+        </h1>
+
+
+        <p class="lead text-muted">
+
+            Consulta el catálogo de libros disponibles
+
+        </p>
+
+
+    </div>
+
+
+
+
+    <!-- Barra de búsqueda -->
+
+    <div class="row justify-content-center mb-5">
+
+
+        <div class="col-md-8">
+
+
+            <div class="input-group input-group-lg">
+
+
+                <input 
+                    type="text" 
+                    class="form-control"
+                    placeholder="Buscar libro por nombre, autor o categoría..."
+                >
+
+
+                <button class="btn btn-primary">
+
+                    <i class="bi bi-search"></i>
+
+                    Buscar
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Filtros -->
+
+    <div class="row justify-content-center mb-4">
+
+
+        <div class="col-md-10">
+
+
+            <div class="card border-0 shadow-sm p-3">
+
+
+                <div class="card-body">
+
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="bi bi-funnel"></i>
+
+                        Filtros de búsqueda
+
+                    </h5>
+
+
+
+                    <div class="row g-3">
+
+
+
+                        <div class="col-md-4">
+
+                            <select class="form-select">
+
+                                <option selected>
+                                    Categoría
+                                </option>
+
+                                <option>
+                                    Circuitos
+                                </option>
+
+                                <option>
+                                    Electrónica
+                                </option>
+
+                                <option>
+                                    Máquinas Eléctricas
+                                </option>
+
+
+                            </select>
+
+                        </div>
+
+
+
+
+                        <div class="col-md-4">
+
+                            <select class="form-select">
+
+
+                                <option selected>
+                                    Disponibilidad
+                                </option>
+
+
+                                <option>
+                                    Disponible
+                                </option>
+
+
+                                <option>
+                                    Agotado
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+                        <div class="col-md-4">
+
+
+                            <select class="form-select">
+
+
+                                <option selected>
+                                    Ordenar por
+                                </option>
+
+
+                                <option>
+                                    Nombre
+                                </option>
+
+
+                                <option>
+                                    Autor
+                                </option>
+
+
+                                <option>
+                                    Año
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Resultados -->
+
+    <div class="row g-4">
+
+
+
+       
+
+
+
+    </div>
+
+
+
+
+
+    <!-- Volver -->
+
+
+    <div class="text-center mt-5">
+
+
+        <a href="/" class="btn btn-secondary">
+
+
+            <i class="bi bi-arrow-left"></i>
+
+            Volver al inicio
+
+
+        </a>
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
