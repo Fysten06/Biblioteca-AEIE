@@ -1,9 +1,17 @@
-from flask import Flask, render_template, request, jsonify, session
-from database.database import init_db, buscar_libros, obtener_categorias
+from flask import Flask, render_template, request, redirect, url_for, session
+from dotenv import load_dotenv
+import os
+
+from database import init_db
+
+# Cargar variables del archivo .env
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "aeie-biblioteca-secret"
 
+app.secret_key = os.getenv("SECRET_KEY")
+
+# Crear la base de datos si no existe
 init_db()
 
 
@@ -12,75 +20,43 @@ def inicio():
     return render_template("index.html")
 
 
+@app.route("/publico")
+def publico():
+    return render_template("public.html")
+
+
 @app.route("/admin", methods=["GET", "POST"])
-def administrador():
-    contraseña_correcta = "admin123"
+def login_admin():
+
+    if session.get("admin"):
+        return render_template("admin.html")
 
     if request.method == "POST":
-        contraseña = request.form["password"]
-        if contraseña == contraseña_correcta:
+
+        password = request.form["password"]
+
+        if password == os.getenv("ADMIN_PASSWORD"):
+
             session["admin"] = True
+
             return render_template("admin.html")
+
         else:
-            return render_template("login_admin.html", error="Contraseña incorrecta")
+
+            return render_template(
+                "login_admin.html",
+                error="Contraseña incorrecta."
+            )
 
     return render_template("login_admin.html")
 
 
-@app.route("/publico")
-def publico():
-    categorias = obtener_categorias()
-    return render_template("public.html", categorias=categorias)
-
-
-@app.route("/buscar")
-def buscar():
-    termino = request.args.get("q", "").strip()
-    categoria = request.args.get("categoria")
-    disponibilidad = request.args.get("disponible")
-    orden = request.args.get("orden")
-
-    if disponibilidad == "disponible":
-        disp = True
-    elif disponibilidad == "agotado":
-        disp = False
-    else:
-        disp = None
-
-    if not termino and not categoria:
-        return render_template("public.html",
-                            resultados=None,
-                            categorias=obtener_categorias())
-
-    resultados = buscar_libros(termino, categoria, disp, orden)
-    return render_template("public.html",
-                         resultados=resultados,
-                         categorias=obtener_categorias(),
-                         termino=termino)
-
-
-@app.route("/api/buscar")
-def api_buscar():
-    termino = request.args.get("q", "").strip()
-    categoria = request.args.get("categoria")
-    orden = request.args.get("orden")
-
-    if not termino:
-        return jsonify([])
-
-    resultados = buscar_libros(termino, categoria if categoria else None, None, orden)
-    return jsonify(resultados)
-
-
-@app.route("/api/categorias")
-def api_categorias():
-    return jsonify(obtener_categorias())
-
-
 @app.route("/logout")
 def logout():
-    session.pop("admin", None)
-    return render_template("index.html")
+
+    session.clear()
+
+    return redirect(url_for("inicio"))
 
 
 if __name__ == "__main__":
