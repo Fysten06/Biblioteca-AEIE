@@ -1,16 +1,29 @@
+#Variables privadas
+.env
+
 # Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 dist/
 build/
+*.pyc
+*.pyo
 
 # Virtual environment
 .venv/
 venv/
 
+# Bases de datos locales
+*.db
+*.sqlite
+*.sqlite3
+
 # Database
 database/biblioteca.db
+
+# Archivos temporales
+*.log
 
 # Environment files
 .env
