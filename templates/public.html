@@ -1,253 +1,158 @@
 {% extends "base.html" %}
 
-
 {% block title %}
 Público General
 {% endblock %}
-
-
 
 {% block content %}
 
 <div class="container">
 
-
     <!-- Encabezado -->
-
     <div class="text-center mb-5">
-
-
-        <h1 class="display-5 fw-bold">
-
-            Biblioteca Pública
-
-        </h1>
-
-
-        <p class="lead text-muted">
-
-            Consulta el catálogo de libros disponibles
-
-        </p>
-
-
+        <h1 class="display-5 fw-bold">Biblioteca Pública</h1>
+        <p class="lead text-muted">Consulta el catálogo de libros disponibles</p>
     </div>
-
-
-
 
     <!-- Barra de búsqueda -->
-
     <div class="row justify-content-center mb-5">
-
-
         <div class="col-md-8">
-
-
-            <div class="input-group input-group-lg">
-
-
-                <input 
-                    type="text" 
-                    class="form-control"
-                    placeholder="Buscar libro por nombre, autor o categoría..."
-                >
-
-
-                <button class="btn btn-primary">
-
-                    <i class="bi bi-search"></i>
-
-                    Buscar
-
+            <form action="/buscar" method="GET" class="input-group input-group-lg">
+                <input type="text"
+                       name="q"
+                       class="form-control"
+                       placeholder="Buscar libro por nombre, autor o categoría..."
+                       value="{{ termino or '' }}"
+                       id="search-input"
+                       autocomplete="off">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i> Buscar
                 </button>
-
-
-            </div>
-
-
+            </form>
+            <!-- Resultados en vivo -->
+            <div id="live-results" class="list-group mt-2" style="display:none; position:absolute; z-index:1000; width:calc(100% - 100px);"></div>
         </div>
-
-
     </div>
-
-
-
-
 
     <!-- Filtros -->
-
     <div class="row justify-content-center mb-4">
-
-
         <div class="col-md-10">
-
-
-            <div class="card border-0 shadow-sm p-3">
-
-
+            <form action="/buscar" method="GET" class="card border-0 shadow-sm p-3">
                 <div class="card-body">
-
-
-                    <h5 class="fw-bold mb-3">
-
-                        <i class="bi bi-funnel"></i>
-
-                        Filtros de búsqueda
-
-                    </h5>
-
-
-
+                    <h5 class="fw-bold mb-3"><i class="bi bi-funnel"></i> Filtros de búsqueda</h5>
                     <div class="row g-3">
-
-
-
                         <div class="col-md-4">
-
-                            <select class="form-select">
-
-                                <option selected>
-                                    Categoría
-                                </option>
-
-                                <option>
-                                    Circuitos
-                                </option>
-
-                                <option>
-                                    Electrónica
-                                </option>
-
-                                <option>
-                                    Máquinas Eléctricas
-                                </option>
-
-
+                            <select name="categoria" class="form-select">
+                                <option value="">Todas las categorías</option>
+                                {% for cat in categorias %}
+                                <option value="{{ cat }}" {% if request.args.get('categoria') == cat %}selected{% endif %}>{{ cat }}</option>
+                                {% endfor %}
                             </select>
-
                         </div>
-
-
-
-
                         <div class="col-md-4">
-
-                            <select class="form-select">
-
-
-                                <option selected>
-                                    Disponibilidad
-                                </option>
-
-
-                                <option>
-                                    Disponible
-                                </option>
-
-
-                                <option>
-                                    Agotado
-                                </option>
-
-
+                            <select name="disponible" class="form-select">
+                                <option value="">Cualquier disponibilidad</option>
+                                <option value="disponible" {% if request.args.get('disponible') == 'disponible' %}selected{% endif %}>Disponible</option>
+                                <option value="agotado" {% if request.args.get('disponible') == 'agotado' %}selected{% endif %}>Agotado</option>
                             </select>
-
-
                         </div>
-
-
-
-
                         <div class="col-md-4">
-
-
-                            <select class="form-select">
-
-
-                                <option selected>
-                                    Ordenar por
-                                </option>
-
-
-                                <option>
-                                    Nombre
-                                </option>
-
-
-                                <option>
-                                    Autor
-                                </option>
-
-
-                                <option>
-                                    Año
-                                </option>
-
-
+                            <select name="orden" class="form-select">
+                                <option value="">Ordenar por</option>
+                                <option value="nombre" {% if request.args.get('orden') == 'nombre' %}selected{% endif %}>Nombre</option>
+                                <option value="autor" {% if request.args.get('orden') == 'autor' %}selected{% endif %}>Autor</option>
+                                <option value="anio" {% if request.args.get('orden') == 'anio' %}selected{% endif %}>Año</option>
                             </select>
-
-
                         </div>
-
-
-
                     </div>
-
-
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Filtrar</button>
+                    </div>
                 </div>
-
-
-            </div>
-
-
+            </form>
         </div>
-
-
     </div>
-
-
-
-
 
     <!-- Resultados -->
-
     <div class="row g-4">
-
-
-
-       
-
-
-
+        {% if resultados is not none %}
+            {% if resultados %}
+                {% for libro in resultados %}
+                <div class="col-md-4 col-lg-3">
+                    <div class="card book-card shadow-sm border-0 p-3 text-center">
+                        <i class="bi bi-book display-4 text-primary mb-3"></i>
+                        <h5 class="fw-bold">{{ libro.titulo }}</h5>
+                        <p class="book-info mb-1"><strong>Autor:</strong> {{ libro.autor }}</p>
+                        <p class="book-info mb-1"><strong>Categoría:</strong> {{ libro.categoria }}</p>
+                        <p class="book-info mb-1"><strong>Año:</strong> {{ libro.anio }}</p>
+                        <p class="book-info mb-1"><strong>ISBN:</strong> {{ libro.isbn }}</p>
+                        {% if libro.disponible %}
+                            <span class="badge bg-success mt-2">Disponible</span>
+                        {% else %}
+                            <span class="badge bg-danger mt-2">Agotado</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-muted fs-5">No se encontraron libros con los criterios de búsqueda.</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted fs-5">Realiza una búsqueda para ver resultados.</p>
+            </div>
+        {% endif %}
     </div>
-
-
-
-
 
     <!-- Volver -->
-
-
     <div class="text-center mt-5">
-
-
-        <a href="/" class="btn btn-secondary">
-
-
-            <i class="bi bi-arrow-left"></i>
-
-            Volver al inicio
-
-
-        </a>
-
-
+        <a href="/" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
     </div>
-
-
 
 </div>
 
+{% endblock %}
 
+{% block extra_js %}
+<script>
+const searchInput = document.getElementById('search-input');
+const liveResults = document.getElementById('live-results');
+let timeout;
+
+searchInput.addEventListener('input', function() {
+    clearTimeout(timeout);
+    const q = this.value.trim();
+    if (q.length < 2) {
+        liveResults.style.display = 'none';
+        return;
+    }
+    timeout = setTimeout(async () => {
+        try {
+            const res = await fetch(`/api/buscar?q=${encodeURIComponent(q)}`);
+            const libros = await res.json();
+            if (libros.length === 0) {
+                liveResults.innerHTML = '<a class="list-group-item list-group-item-action text-muted">Sin resultados</a>';
+            } else {
+                liveResults.innerHTML = libros.slice(0, 5).map(l =>
+                    `<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span><strong>${l.titulo}</strong><br><small class="text-muted">${l.autor}</small></span>
+                        <span class="badge ${l.disponible ? 'bg-success' : 'bg-danger'}">${l.disponible ? 'Disp' : 'Agot'}</span>
+                    </a>`
+                ).join('');
+            }
+            liveResults.style.display = 'block';
+        } catch(e) {
+            liveResults.style.display = 'none';
+        }
+    }, 300);
+});
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#search-input') && !e.target.closest('#live-results')) {
+        liveResults.style.display = 'none';
+    }
+});
+</script>
 {% endblock %}
