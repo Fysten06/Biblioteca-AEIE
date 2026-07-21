@@ -1,5 +1,7 @@
 # Biblioteca-AEIE
-Este repositorio tiene como objetivo trabajar en el código para un sistema de biblioteca propio de la AEIE
+Este repositorio tiene como objetivo trabajar en el código para un sistema de biblioteca propio de la AEIE.
+
+```text
 biblioteca/
 │
 ├── app.py                  # Archivo principal (main)
@@ -31,14 +33,11 @@ biblioteca/
 ├── static/
 │   ├── css/
 │   │   └── style.css
-│   │
 │   ├── js/
 │   │   └── script.js
-│   │
 │   ├── img/
 │   │   ├── logo.png
 │   │   └── default_book.png
-│   │
 │   └── uploads/
 │       └── portadas/
 │
