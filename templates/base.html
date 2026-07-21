@@ -7,143 +7,274 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Biblioteca Ingeniería Eléctrica{% endblock %}</title>
+    <title>
+        {% block title %}
+        Biblioteca Ingeniería Eléctrica
+        {% endblock %}
+    </title>
+
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS Propio -->
+
+    <!-- CSS propio -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 
     {% block extra_css %}
     {% endblock %}
 
+
 </head>
+
+
 
 <body>
 
-    <!-- ========================= -->
-    <!-- BARRA DE NAVEGACIÓN -->
-    <!-- ========================= -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <!-- ==================================================
+         NAVBAR
+         ================================================== -->
+
+
+    <nav class="navbar navbar-expand-lg navbar-biblioteca shadow">
+
 
         <div class="container">
 
+
             <a class="navbar-brand fw-bold" href="/">
+
                 <i class="bi bi-book-half"></i>
+
                 Biblioteca Ingeniería Eléctrica
+
             </a>
+
+
 
             <button class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#menu">
 
+
                 <span class="navbar-toggler-icon"></span>
+
 
             </button>
 
+
+
+
             <div class="collapse navbar-collapse" id="menu">
+
 
                 <ul class="navbar-nav ms-auto">
 
+
                     <li class="nav-item">
+
 
                         <a class="nav-link" href="/">
+
                             <i class="bi bi-house-door"></i>
+
                             Inicio
+
                         </a>
+
 
                     </li>
 
+
+
+
                     <li class="nav-item">
+
 
                         <a class="nav-link" href="/admin">
+
+
                             <i class="bi bi-person-workspace"></i>
+
                             Administrador
+
+
                         </a>
 
+
                     </li>
+
+
+
+
 
                     <li class="nav-item">
 
+
                         <a class="nav-link" href="/publico">
+
+
                             <i class="bi bi-search"></i>
+
                             Público
+
+
                         </a>
 
+
                     </li>
+
+
+
+
+                    <!-- Botón cerrar sesión -->
+
+                    {% if session.get('admin') %}
+
+                    <li class="nav-item">
+
+
+                        <a class="nav-link text-warning" href="/logout">
+
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            Cerrar sesión
+
+
+                        </a>
+
+
+                    </li>
+
+
+                    {% endif %}
+
+
 
                 </ul>
 
+
+
             </div>
 
+
+
         </div>
+
 
     </nav>
 
-    <!-- ========================= -->
-    <!-- CONTENIDO -->
-    <!-- ========================= -->
+
+
+
+
+    <!-- ==================================================
+         CONTENIDO PRINCIPAL
+         ================================================== -->
+
 
     <main class="container my-5">
 
+
         {% block content %}
+
         {% endblock %}
+
 
     </main>
 
-    <!-- ========================= -->
-    <!-- FOOTER -->
-    <!-- ========================= -->
 
-    <footer class="bg-light border-top mt-auto py-4">
+
+
+
+
+    <!-- ==================================================
+         FOOTER
+         ================================================== -->
+
+
+    <footer class="border-top mt-auto py-4">
+
 
         <div class="container text-center">
 
+
             <h6 class="fw-bold mb-2">
+
 
                 Biblioteca Ingeniería Eléctrica
 
+
             </h6>
+
+
 
             <p class="text-muted mb-1">
 
+
                 Universidad de Costa Rica
+
 
             </p>
 
+
+
             <small class="text-muted">
+
 
                 © 2026 - Sistema de Gestión Bibliotecaria
 
+
             </small>
+
+
 
         </div>
 
+
+
     </footer>
+
+
+
+
+
 
     <!-- Bootstrap JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JavaScript propio -->
+
+
+    <!-- JS propio -->
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
+
+
     {% block extra_js %}
+
     {% endblock %}
 
+
+
 </body>
+
 
 </html>

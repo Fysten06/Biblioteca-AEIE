@@ -1,0 +1,421 @@
+/* ==========================================================
+   CONFIGURACIÓN GENERAL
+   ========================================================== */
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+
+    background-color: #F5F7FA;
+    color: #2C3E50;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+
+
+.navbar-biblioteca {
+
+    background-color: #003C71 !important;
+
+}
+
+
+.navbar-biblioteca .navbar-brand,
+.navbar-biblioteca .nav-link {
+
+    color: white !important;
+
+}
+
+
+.navbar-biblioteca .nav-link:hover {
+
+    color: #DDEEFF !important;
+
+}
+
+
+.navbar-brand {
+
+    font-size: 1.2rem;
+
+    letter-spacing: 0.3px;
+
+}
+
+
+
+.nav-link {
+
+    font-weight: 500;
+
+    margin-left: 10px;
+
+    transition: 0.3s;
+
+}
+
+
+.nav-link:hover {
+
+    color: #FFFFFF !important;
+
+    transform: translateY(-2px);
+
+}
+
+
+
+/* ==========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================== */
+
+
+main {
+
+    flex: 1;
+
+}
+
+
+
+/* ==========================================================
+   TITULOS
+   ========================================================== */
+
+
+h1,
+h2,
+h3,
+h4 {
+
+    color: #003C71;
+
+}
+
+
+
+.display-4,
+.display-5 {
+
+    font-weight: 700;
+
+}
+
+
+
+/* ==========================================================
+   TARJETAS
+   ========================================================== */
+
+
+.card {
+
+    border-radius: 18px !important;
+
+    transition: all 0.3s ease;
+
+}
+
+
+
+.card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important;
+
+}
+
+
+
+.card-title {
+
+    color: #003C71;
+
+}
+
+
+
+/* ==========================================================
+   ICONOS GRANDES
+   ========================================================== */
+
+
+.display-3 {
+
+    color: #005A9C;
+
+}
+
+
+
+/* ==========================================================
+   BOTONES
+   ========================================================== */
+
+
+.btn {
+
+    border-radius: 10px;
+
+    font-weight: 500;
+
+    padding: 10px 25px;
+
+    transition: all 0.3s ease;
+
+}
+
+
+
+.btn-primary {
+
+
+    background-color: #003C71;
+
+    border-color: #003C71;
+
+
+}
+
+
+
+.btn-primary:hover {
+
+
+    background-color: #005A9C;
+
+    border-color: #005A9C;
+
+    transform: translateY(-2px);
+
+
+}
+
+
+
+.btn-outline-primary {
+
+
+    color: #003C71;
+
+    border-color: #003C71;
+
+
+}
+
+
+
+.btn-outline-primary:hover {
+
+
+    background-color: #003C71;
+
+    border-color: #003C71;
+
+
+}
+
+
+
+/* ==========================================================
+   BUSCADOR
+   ========================================================== */
+
+
+.form-control {
+
+    border-radius: 12px;
+
+    border: 1px solid #D9DEE5;
+
+    padding: 12px;
+
+}
+
+
+
+.form-control:focus {
+
+
+    border-color: #005A9C;
+
+    box-shadow: 0 0 0 0.2rem rgba(0,90,156,0.15);
+
+
+}
+
+
+
+/* ==========================================================
+   SELECTORES
+   ========================================================== */
+
+
+.form-select {
+
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+
+}
+
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+
+footer {
+
+
+    background-color: #FFFFFF !important;
+
+
+}
+
+
+
+footer h6 {
+
+
+    color: #003C71;
+
+
+}
+
+
+
+/* ==========================================================
+   LOGIN ADMINISTRADOR
+   ========================================================== */
+
+
+.login-card {
+
+
+    max-width: 450px;
+
+    margin: auto;
+
+
+}
+
+
+
+/* ==========================================================
+   LIBROS
+   ========================================================== */
+
+
+.book-card {
+
+
+    height: 100%;
+
+}
+
+
+
+.book-card i {
+
+
+    font-size: 60px;
+
+
+}
+
+
+
+.book-info {
+
+
+    color: #6C757D;
+
+
+}
+
+
+
+/* ==========================================================
+   ANIMACIONES
+   ========================================================== */
+
+
+@keyframes aparecer {
+
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+
+}
+
+
+
+.card,
+.container {
+
+
+    animation: aparecer 0.5s ease;
+
+
+}
+
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+
+@media(max-width:768px){
+
+
+    .display-4 {
+
+        font-size: 2.2rem;
+
+    }
+
+
+    .card {
+
+        margin-bottom: 20px;
+
+    }
+
+
+}
