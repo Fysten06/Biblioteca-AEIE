@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar libro{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Agregar libro</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="titulo"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Autor</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="autor"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Editorial</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="editorial">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="categoria"
+                                placeholder="Ejemplo: Circuitos">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Año</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="anio">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">ISBN</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="isbn">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cantidad</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="cantidad"
+                                value="1"
+                                min="1"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea
+                                class="form-control"
+                                name="descripcion"
+                                rows="4"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ url_for('login_admin') }}"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-success">
+                                Guardar libro
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

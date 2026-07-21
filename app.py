@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from dotenv import load_dotenv
 import os
 
-from database import init_db
+from database import (
+    init_db,
+    agregar_libro
+)
 
-# Cargar variables del archivo .env
 load_dotenv()
 
 app = Flask(__name__)
@@ -41,14 +43,48 @@ def login_admin():
 
             return render_template("admin.html")
 
-        else:
-
-            return render_template(
-                "login_admin.html",
-                error="Contraseña incorrecta."
-            )
+        return render_template(
+            "login_admin.html",
+            error="Contraseña incorrecta."
+        )
 
     return render_template("login_admin.html")
+
+
+@app.route("/admin/agregar", methods=["GET", "POST"])
+def agregar():
+
+    if not session.get("admin"):
+        return redirect(url_for("login_admin"))
+
+    if request.method == "POST":
+
+        titulo = request.form["titulo"]
+        autor = request.form["autor"]
+        editorial = request.form["editorial"]
+        categoria = request.form["categoria"]
+        anio = request.form["anio"]
+        isbn = request.form["isbn"]
+        descripcion = request.form["descripcion"]
+        cantidad = int(request.form["cantidad"])
+
+        if anio == "":
+            anio = None
+
+        agregar_libro(
+            titulo,
+            autor,
+            editorial,
+            categoria,
+            anio,
+            isbn,
+            descripcion,
+            cantidad
+        )
+
+        return redirect(url_for("login_admin"))
+
+    return render_template("add_book.html")
 
 
 @app.route("/logout")

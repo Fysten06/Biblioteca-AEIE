@@ -1,222 +1,42 @@
 {% extends "base.html" %}
 
-
-{% block title %}
-Administrador
-{% endblock %}
-
-
+{% block title %}Panel de Administración{% endblock %}
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5">
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <!-- Encabezado -->
-
-    <div class="text-center mb-5">
-
-        <h1 class="display-5 fw-bold">
-            Panel de Administrador
-        </h1>
-
-        <p class="lead text-muted">
-            Gestión del inventario bibliográfico
-        </p>
-
-    </div>
-
-
-
-    <!-- Opciones del administrador -->
-
-    <div class="row g-4 justify-content-center">
-
-
-
-        <!-- Agregar libros -->
-
-        <div class="col-md-4">
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
-
-
-                <div class="card-body">
-
-
-                    <i class="bi bi-plus-circle display-3 text-primary"></i>
-
-
-                    <h3 class="card-title fw-bold mt-4">
-
-                        Agregar libros
-
-                    </h3>
-
-
-                    <p class="card-text text-muted">
-
-                        Registra nuevos libros dentro del sistema
-                        indicando título, autor, categoría y disponibilidad.
-
-                    </p>
-
-
-                    <a href="#" class="btn btn-primary">
-
-                        <i class="bi bi-plus-lg"></i>
-
-                        Agregar libro
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
+        <div>
+            <h2>Panel de Administración</h2>
+            <p class="text-muted mb-0">
+                Desde aquí puedes administrar los libros de la biblioteca.
+            </p>
         </div>
 
-
-
-
-
-        <!-- Administrar libros -->
-
-
-        <div class="col-md-4">
-
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
-
-
-                <div class="card-body">
-
-
-                    <i class="bi bi-journal-bookmark display-3 text-primary"></i>
-
-
-
-                    <h3 class="card-title fw-bold mt-4">
-
-                        Inventario
-
-                    </h3>
-
-
-
-                    <p class="card-text text-muted">
-
-                        Consulta, modifica o elimina libros
-                        registrados actualmente en la biblioteca.
-
-                    </p>
-
-
-
-                    <a href="#" class="btn btn-outline-primary">
-
-
-                        <i class="bi bi-gear"></i>
-
-                        Administrar
-
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-
-
-        <!-- Estadísticas -->
-
-
-        <div class="col-md-4">
-
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
-
-
-                <div class="card-body">
-
-
-                    <i class="bi bi-bar-chart display-3 text-primary"></i>
-
-
-
-                    <h3 class="card-title fw-bold mt-4">
-
-                        Estadísticas
-
-                    </h3>
-
-
-
-                    <p class="card-text text-muted">
-
-                        Visualiza información general del inventario
-                        y disponibilidad de libros.
-
-                    </p>
-
-
-
-                    <a href="#" class="btn btn-outline-primary">
-
-
-                        <i class="bi bi-graph-up"></i>
-
-                        Ver estadísticas
-
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-    </div>
-
-
-
-    <!-- Botón volver -->
-
-
-    <div class="text-center mt-5">
-
-
-        <a href="/" class="btn btn-secondary">
-
-            <i class="bi bi-arrow-left"></i>
-
-            Volver al inicio
-
+        <a href="{{ url_for('agregar') }}" class="btn btn-success">
+            Agregar libro
         </a>
 
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h5 class="mb-0">Libros registrados</h5>
+        </div>
+
+        <div class="card-body">
+
+            <p class="text-center text-muted mb-0">
+                Aún no hay libros registrados.
+            </p>
+
+        </div>
 
     </div>
 
-
-
 </div>
-
 
 {% endblock %}
