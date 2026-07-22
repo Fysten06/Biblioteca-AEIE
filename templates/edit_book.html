@@ -2,7 +2,7 @@
 
 
 {% block title %}
-Agregar libro
+Editar libro
 {% endblock %}
 
 
@@ -16,10 +16,10 @@ Agregar libro
     <div class="card shadow">
 
 
-        <div class="card-header bg-success text-white">
+        <div class="card-header bg-warning">
 
             <h3 class="mb-0">
-                Agregar nuevo libro
+                Editar libro
             </h3>
 
         </div>
@@ -44,9 +44,11 @@ Agregar libro
                     type="text"
                     class="form-control"
                     name="titulo"
+                    value="{{ libro.titulo }}"
                     required>
 
                 </div>
+
 
 
 
@@ -61,9 +63,11 @@ Agregar libro
                     type="text"
                     class="form-control"
                     name="autor"
+                    value="{{ libro.autor }}"
                     required>
 
                 </div>
+
 
 
 
@@ -77,7 +81,8 @@ Agregar libro
                     <input
                     type="text"
                     class="form-control"
-                    name="editorial">
+                    name="editorial"
+                    value="{{ libro.editorial }}">
 
                 </div>
 
@@ -95,7 +100,7 @@ Agregar libro
                     type="text"
                     class="form-control"
                     name="categoria"
-                    value="General">
+                    value="{{ libro.categoria }}">
 
                 </div>
 
@@ -112,7 +117,8 @@ Agregar libro
                     <input
                     type="number"
                     class="form-control"
-                    name="anio">
+                    name="anio"
+                    value="{{ libro.anio }}">
 
                 </div>
 
@@ -129,7 +135,8 @@ Agregar libro
                     <input
                     type="text"
                     class="form-control"
-                    name="isbn">
+                    name="isbn"
+                    value="{{ libro.isbn }}">
 
                 </div>
 
@@ -139,7 +146,7 @@ Agregar libro
                 <div class="mb-3">
 
                     <label class="form-label">
-                        Cantidad de libros
+                        Cantidad total
                     </label>
 
 
@@ -148,11 +155,33 @@ Agregar libro
                     class="form-control"
                     name="cantidad"
                     min="1"
+                    value="{{ libro.cantidad }}"
+                    required>
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Libros disponibles
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="disponibles"
+                    min="0"
+                    max="{{ libro.cantidad }}"
+                    value="{{ libro.disponibles }}"
                     required>
 
 
                     <small class="text-muted">
-                        La cantidad disponible se establecerá automáticamente.
+                        Los disponibles no pueden superar la cantidad total.
                     </small>
 
 
@@ -171,7 +200,7 @@ Agregar libro
                     <textarea
                     class="form-control"
                     name="descripcion"
-                    rows="4"></textarea>
+                    rows="4">{{ libro.descripcion }}</textarea>
 
 
                 </div>
@@ -179,10 +208,38 @@ Agregar libro
 
 
 
+                {% if libro.imagen %}
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Portada actual
+                    </label>
+
+
+                    <br>
+
+
+                    <img
+                    src="/{{ libro.imagen }}"
+                    width="150"
+                    class="img-thumbnail">
+
+
+                </div>
+
+
+                {% endif %}
+
+
+
+
                 <div class="mb-3">
 
                     <label class="form-label">
-                        Portada del libro
+                        Cambiar portada
                     </label>
 
 
@@ -194,7 +251,7 @@ Agregar libro
 
 
                     <small class="text-muted">
-                        Formatos permitidos: PNG, JPG y JPEG.
+                        Si no selecciona una imagen se mantendrá la actual.
                     </small>
 
 
@@ -205,11 +262,12 @@ Agregar libro
 
                 <button
                 type="submit"
-                class="btn btn-success">
+                class="btn btn-warning">
 
-                    Guardar libro
+                    Guardar cambios
 
                 </button>
+
 
 
 
