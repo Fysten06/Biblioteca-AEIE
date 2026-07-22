@@ -20,7 +20,9 @@ from database import (
     devolver_libro,
     eliminar_prestamo,
     actualizar_atrasados,
-    obtener_estadisticas
+    obtener_estadisticas,
+    obtener_ultimos_prestamos,
+    obtener_libros_mas_solicitados
 )
 
 load_dotenv()
@@ -230,7 +232,6 @@ def login_admin():
 @app.route("/admin/dashboard")
 def dashboard():
 
-
     if not session.get("admin"):
 
         return redirect(
@@ -238,17 +239,22 @@ def dashboard():
         )
 
 
-    actualizar_atrasados()
-
-
     estadisticas = obtener_estadisticas()
+
+
+    ultimos_prestamos = obtener_ultimos_prestamos()
+
+
+    libros_populares = obtener_libros_mas_solicitados()
+
 
 
     return render_template(
         "dashboard.html",
-        estadisticas=estadisticas
+        estadisticas=estadisticas,
+        ultimos_prestamos=ultimos_prestamos,
+        libros_populares=libros_populares
     )
-
 
 
 @app.route("/admin/panel")
@@ -610,6 +616,4 @@ def logout():
 
 if __name__ == "__main__":
 
-    app.run(
-        debug=True
-    )
+    app.run()

@@ -824,6 +824,7 @@ def obtener_estadisticas():
     }
 
 
+
 def obtener_estadisticas():
 
     conn = get_connection()
@@ -832,7 +833,7 @@ def obtener_estadisticas():
 
 
     cursor.execute("""
-        SELECT COUNT(*) 
+        SELECT COUNT(*)
         FROM libros
     """)
 
@@ -841,12 +842,22 @@ def obtener_estadisticas():
 
 
     cursor.execute("""
+        SELECT SUM(disponibles)
+        FROM libros
+    """)
+
+    disponibles = cursor.fetchone()[0]
+
+    if disponibles is None:
+
+        disponibles = 0
+
+
+
+    cursor.execute("""
         SELECT COUNT(*)
-
         FROM prestamos
-
         WHERE estado = 'Pendiente'
-
     """)
 
     pendientes = cursor.fetchone()[0]
@@ -855,11 +866,8 @@ def obtener_estadisticas():
 
     cursor.execute("""
         SELECT COUNT(*)
-
         FROM prestamos
-
         WHERE estado = 'Aprobado'
-
     """)
 
     activos = cursor.fetchone()[0]
@@ -868,14 +876,21 @@ def obtener_estadisticas():
 
     cursor.execute("""
         SELECT COUNT(*)
-
         FROM prestamos
-
         WHERE estado = 'Atrasado'
-
     """)
 
     atrasados = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM prestamos
+    """)
+
+    total_prestamos = cursor.fetchone()[0]
+
 
 
     conn.close()
@@ -885,10 +900,123 @@ def obtener_estadisticas():
 
         "total_libros": total_libros,
 
+        "disponibles": disponibles,
+
         "pendientes": pendientes,
 
         "activos": activos,
 
-        "atrasados": atrasados
+        "atrasados": atrasados,
+
+        "total_prestamos": total_prestamos
 
     }
+
+
+
+
+
+def obtener_ultimos_prestamos():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT
+
+            prestamos.id,
+
+            prestamos.nombre,
+
+            prestamos.estado,
+
+            prestamos.fecha_solicitud,
+
+            libros.titulo
+
+
+        FROM prestamos
+
+
+        INNER JOIN libros
+
+
+        ON prestamos.libro_id = libros.id
+
+
+        ORDER BY prestamos.id DESC
+
+
+        LIMIT 5
+
+    """)
+
+
+    prestamos = [
+
+        dict(row)
+
+        for row in cursor.fetchall()
+
+    ]
+
+
+    conn.close()
+
+
+    return prestamos
+
+
+
+
+
+def obtener_libros_mas_solicitados():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT
+
+            libros.titulo,
+
+            COUNT(prestamos.id) AS cantidad
+
+
+        FROM libros
+
+
+        LEFT JOIN prestamos
+
+
+        ON libros.id = prestamos.libro_id
+
+
+        GROUP BY libros.id
+
+
+        ORDER BY cantidad DESC
+
+
+        LIMIT 5
+
+    """)
+
+
+    libros = [
+
+        dict(row)
+
+        for row in cursor.fetchall()
+
+    ]
+
+
+    conn.close()
+
+
+    return libros
