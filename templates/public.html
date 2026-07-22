@@ -19,18 +19,15 @@ Catálogo de libros
             Catálogo de libros
         </h2>
 
-
         <p class="text-muted">
-            Consulta los libros disponibles en la biblioteca.
+            Consulta y solicita libros disponibles.
         </p>
 
     </div>
 
 
 
-
     <form method="GET" class="mb-5">
-
 
         <div class="input-group">
 
@@ -44,8 +41,7 @@ Catálogo de libros
 
 
 
-            <button
-            class="btn btn-primary">
+            <button class="btn btn-primary">
 
                 Buscar
 
@@ -53,7 +49,6 @@ Catálogo de libros
 
 
         </div>
-
 
     </form>
 
@@ -64,9 +59,7 @@ Catálogo de libros
     {% if libros %}
 
 
-
     <div class="row">
-
 
 
         {% for libro in libros %}
@@ -76,42 +69,31 @@ Catálogo de libros
         <div class="col-md-4 mb-4">
 
 
-
             <div class="card h-100 shadow-sm">
-
-
 
 
 
                 {% if libro.imagen %}
 
 
-
                 <img
                 src="/{{ libro.imagen }}"
                 class="card-img-top"
-                style="height: 300px; object-fit: cover;">
-
+                style="height:300px; object-fit:cover;">
 
 
                 {% else %}
 
 
-
                 <div
-                class="d-flex align-items-center justify-content-center bg-light"
+                class="d-flex justify-content-center align-items-center bg-light"
                 style="height:300px;">
 
-
                     <span class="text-muted">
-
                         Sin portada
-
                     </span>
 
-
                 </div>
-
 
 
                 {% endif %}
@@ -120,9 +102,7 @@ Catálogo de libros
 
 
 
-
                 <div class="card-body">
-
 
 
                     <h5 class="card-title">
@@ -134,8 +114,7 @@ Catálogo de libros
 
 
 
-                    <p class="card-text">
-
+                    <p>
 
                         <strong>
                             Autor:
@@ -143,15 +122,12 @@ Catálogo de libros
 
                         {{ libro.autor }}
 
-
                     </p>
 
 
 
 
-
-                    <p class="card-text">
-
+                    <p>
 
                         <strong>
                             Categoría:
@@ -159,66 +135,20 @@ Catálogo de libros
 
                         {{ libro.categoria }}
 
-
                     </p>
 
 
 
 
-
-                    {% if libro.editorial %}
-
-
-
-                    <p class="card-text">
-
+                    <p>
 
                         <strong>
-                            Editorial:
+                            Disponibles:
                         </strong>
 
-                        {{ libro.editorial }}
-
-
-                    </p>
-
-
-
-                    {% endif %}
-
-
-
-
-
-
-                    {% if libro.anio %}
-
-
-
-                    <p class="card-text">
-
-
-                        <strong>
-                            Año:
-                        </strong>
-
-                        {{ libro.anio }}
-
+                        {{ libro.disponibles }}
 
                     </p>
-
-
-
-                    {% endif %}
-
-
-
-
-
-
-
-                    <hr>
-
 
 
 
@@ -227,31 +157,30 @@ Catálogo de libros
                     {% if libro.disponibles > 0 %}
 
 
+                    <a
+                    href="{{ url_for('solicitar_prestamo', id=libro.id) }}"
+                    class="btn btn-success w-100">
 
-                    <span class="badge bg-success">
+                        Solicitar préstamo
 
-                        Disponible:
-                        {{ libro.disponibles }}
-
-                    </span>
+                    </a>
 
 
 
                     {% else %}
 
 
-
-                    <span class="badge bg-danger">
+                    <button
+                    class="btn btn-secondary w-100"
+                    disabled>
 
                         No disponible
 
-                    </span>
+                    </button>
 
 
 
                     {% endif %}
-
-
 
 
 
@@ -262,19 +191,14 @@ Catálogo de libros
             </div>
 
 
-
         </div>
-
 
 
 
         {% endfor %}
 
 
-
     </div>
-
-
 
 
 
@@ -282,28 +206,13 @@ Catálogo de libros
 
 
 
-
-
     <div class="text-center">
 
-
         <h5>
-
             No se encontraron libros.
-
         </h5>
 
-
-        <p class="text-muted">
-
-            Intenta realizar otra búsqueda.
-
-        </p>
-
-
     </div>
-
-
 
 
 
@@ -311,10 +220,7 @@ Catálogo de libros
 
 
 
-
-
 </div>
-
 
 
 {% endblock %}

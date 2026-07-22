@@ -8,6 +8,7 @@ DB_PATH = os.path.join(
 )
 
 
+
 def get_connection():
 
     conn = sqlite3.connect(DB_PATH)
@@ -56,9 +57,44 @@ def init_db():
     """)
 
 
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS prestamos (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            libro_id INTEGER NOT NULL,
+
+            nombre TEXT NOT NULL,
+
+            cedula TEXT NOT NULL,
+
+            carnet TEXT NOT NULL,
+
+            telefono TEXT NOT NULL,
+
+            fecha_solicitud TEXT DEFAULT (datetime('now','-6 hours')),
+
+            fecha_aprobacion TEXT,
+
+            fecha_devolucion TEXT NOT NULL,
+
+            fecha_real_devolucion TEXT,
+
+            estado TEXT DEFAULT 'Pendiente',
+
+            FOREIGN KEY(libro_id)
+            REFERENCES libros(id)
+
+        )
+    """)
+
+
     conn.commit()
 
     conn.close()
+
+
 
 
 
@@ -117,6 +153,8 @@ def agregar_libro(
 
 
 
+
+
 def obtener_libros():
 
     conn = get_connection()
@@ -141,6 +179,8 @@ def obtener_libros():
 
 
     return libros
+
+
 
 
 
@@ -174,6 +214,8 @@ def obtener_libro_por_id(id):
 
 
 
+
+
 def eliminar_libro(id):
 
     conn = get_connection()
@@ -191,6 +233,8 @@ def eliminar_libro(id):
     conn.commit()
 
     conn.close()
+
+
 
 
 
@@ -262,6 +306,8 @@ def editar_libro(
 
 
 
+
+
 def buscar_libros(termino):
 
     conn = get_connection()
@@ -290,7 +336,6 @@ def buscar_libros(termino):
     (
         busqueda,
         busqueda,
-        busqueda,
         busqueda
     ))
 
@@ -308,6 +353,8 @@ def buscar_libros(termino):
 
 
 
+
+
 def obtener_categorias():
 
     conn = get_connection()
@@ -317,9 +364,7 @@ def obtener_categorias():
 
     cursor.execute("""
         SELECT DISTINCT categoria
-
         FROM libros
-
         ORDER BY categoria
     """)
 
@@ -334,3 +379,516 @@ def obtener_categorias():
 
 
     return categorias
+
+
+
+
+
+def crear_prestamo(
+    libro_id,
+    nombre,
+    cedula,
+    carnet,
+    telefono,
+    fecha_devolucion
+):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        INSERT INTO prestamos
+        (
+            libro_id,
+            nombre,
+            cedula,
+            carnet,
+            telefono,
+            fecha_devolucion
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?)
+
+    """,
+    (
+        libro_id,
+        nombre,
+        cedula,
+        carnet,
+        telefono,
+        fecha_devolucion
+    ))
+
+
+    conn.commit()
+
+    conn.close()
+
+
+
+
+
+def obtener_prestamos():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT
+
+            prestamos.*,
+
+            libros.titulo,
+            libros.autor
+
+        FROM prestamos
+
+        INNER JOIN libros
+
+        ON prestamos.libro_id = libros.id
+
+        ORDER BY prestamos.fecha_solicitud DESC
+
+    """)
+
+
+    prestamos = [
+        dict(row)
+        for row in cursor.fetchall()
+    ]
+
+
+    conn.close()
+
+
+    return prestamos
+
+
+
+
+
+def obtener_historial():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT
+
+            prestamos.*,
+
+            libros.titulo,
+            libros.autor
+
+        FROM prestamos
+
+        INNER JOIN libros
+
+        ON prestamos.libro_id = libros.id
+
+        WHERE estado = 'Devuelto'
+
+        OR estado = 'Rechazado'
+
+        ORDER BY fecha_real_devolucion DESC
+
+    """)
+
+
+    historial = [
+        dict(row)
+        for row in cursor.fetchall()
+    ]
+
+
+    conn.close()
+
+
+    return historial
+
+
+
+
+
+def obtener_prestamo_por_id(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT *
+        FROM prestamos
+        WHERE id = ?
+    """,
+    (id,))
+
+
+    prestamo = cursor.fetchone()
+
+
+    conn.close()
+
+
+    if prestamo:
+
+        return dict(prestamo)
+
+
+    return None
+
+
+
+
+
+def aprobar_prestamo(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    prestamo = obtener_prestamo_por_id(id)
+
+
+    if prestamo:
+
+
+        cursor.execute("""
+            UPDATE prestamos
+
+            SET
+
+                estado = 'Aprobado',
+
+                fecha_aprobacion =
+                datetime('now','-6 hours')
+
+            WHERE id = ?
+
+        """,
+        (id,))
+
+
+
+        cursor.execute("""
+            UPDATE libros
+
+            SET disponibles = disponibles - 1
+
+            WHERE id = ?
+
+            AND disponibles > 0
+
+        """,
+        (prestamo["libro_id"],))
+
+
+
+    conn.commit()
+
+    conn.close()
+
+
+
+
+
+def rechazar_prestamo(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        UPDATE prestamos
+
+        SET estado = 'Rechazado'
+
+        WHERE id = ?
+
+    """,
+    (id,))
+
+
+    conn.commit()
+
+    conn.close()
+
+
+
+
+
+def devolver_libro(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    prestamo = obtener_prestamo_por_id(id)
+
+
+    if prestamo:
+
+
+        cursor.execute("""
+            UPDATE prestamos
+
+            SET
+
+                estado = 'Devuelto',
+
+                fecha_real_devolucion =
+                datetime('now','-6 hours')
+
+            WHERE id = ?
+
+        """,
+        (id,))
+
+
+
+        cursor.execute("""
+            UPDATE libros
+
+            SET disponibles = disponibles + 1
+
+            WHERE id = ?
+
+        """,
+        (prestamo["libro_id"],))
+
+
+
+    conn.commit()
+
+    conn.close()
+
+
+
+
+
+def actualizar_atrasados():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        UPDATE prestamos
+
+        SET estado = 'Atrasado'
+
+        WHERE estado = 'Aprobado'
+
+        AND fecha_devolucion < date('now','-6 hours')
+
+    """)
+
+
+    conn.commit()
+
+    conn.close()
+
+
+def eliminar_prestamo(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM prestamos
+        WHERE id = ?
+    """,
+    (id,))
+
+    conn.commit()
+
+    conn.close()
+
+def obtener_prestamo_por_id(id):
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM prestamos
+        WHERE id = ?
+    """,
+    (id,))
+
+
+    prestamo = cursor.fetchone()
+
+    conn.close()
+
+
+    if prestamo:
+
+        return dict(prestamo)
+
+
+    return None
+
+def actualizar_atrasados():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        UPDATE prestamos
+
+        SET estado = 'Atrasado'
+
+        WHERE estado = 'Aprobado'
+
+        AND fecha_devolucion < date('now','-6 hours')
+
+    """)
+
+
+    conn.commit()
+
+    conn.close()
+
+
+def obtener_estadisticas():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT COUNT(*) 
+        FROM libros
+    """)
+
+    total_libros = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM prestamos
+        WHERE estado = 'Pendiente'
+    """)
+
+    pendientes = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM prestamos
+        WHERE estado = 'Aprobado'
+    """)
+
+    activos = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM prestamos
+        WHERE estado = 'Atrasado'
+    """)
+
+    atrasados = cursor.fetchone()[0]
+
+
+
+    conn.close()
+
+
+
+    return {
+        "total_libros": total_libros,
+        "pendientes": pendientes,
+        "activos": activos,
+        "atrasados": atrasados
+    }
+
+
+def obtener_estadisticas():
+
+    conn = get_connection()
+
+    cursor = conn.cursor()
+
+
+    cursor.execute("""
+        SELECT COUNT(*) 
+        FROM libros
+    """)
+
+    total_libros = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+
+        FROM prestamos
+
+        WHERE estado = 'Pendiente'
+
+    """)
+
+    pendientes = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+
+        FROM prestamos
+
+        WHERE estado = 'Aprobado'
+
+    """)
+
+    activos = cursor.fetchone()[0]
+
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+
+        FROM prestamos
+
+        WHERE estado = 'Atrasado'
+
+    """)
+
+    atrasados = cursor.fetchone()[0]
+
+
+    conn.close()
+
+
+    return {
+
+        "total_libros": total_libros,
+
+        "pendientes": pendientes,
+
+        "activos": activos,
+
+        "atrasados": atrasados
+
+    }

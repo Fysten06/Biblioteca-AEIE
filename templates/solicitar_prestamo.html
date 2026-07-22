@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+Solicitar préstamo
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+    <div class="card shadow">
+
+
+        <div class="card-header bg-success text-white">
+
+
+            <h3>
+                Solicitud de préstamo
+            </h3>
+
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+
+            <h5>
+                Libro seleccionado:
+            </h5>
+
+
+            <p>
+
+                <strong>
+                    {{ libro.titulo }}
+                </strong>
+
+                <br>
+
+                Autor:
+                {{ libro.autor }}
+
+            </p>
+
+
+
+
+            {% if error %}
+
+
+            <div class="alert alert-danger">
+
+                {{ error }}
+
+            </div>
+
+
+            {% endif %}
+
+
+
+
+
+            <form method="POST">
+
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Nombre completo
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="nombre"
+                    required>
+
+                </div>
+
+
+
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Cédula
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="cedula"
+                    placeholder="000000000"
+                    maxlength="9"
+                    required>
+
+
+                </div>
+
+
+
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Carnet estudiantil
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="carnet"
+                    placeholder="A12345"
+                    required>
+
+
+                </div>
+
+
+
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Teléfono
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="telefono"
+                    placeholder="88888888"
+                    maxlength="8"
+                    required>
+
+
+                </div>
+
+
+
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Fecha de devolución
+                    </label>
+
+
+                    <input
+                    type="date"
+                    class="form-control"
+                    name="fecha_devolucion"
+                    required>
+
+
+                </div>
+
+
+
+
+
+                <button
+                type="submit"
+                class="btn btn-success">
+
+                    Enviar solicitud
+
+                </button>
+
+
+
+                <a
+                href="{{ url_for('publico') }}"
+                class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+
+Gestión de préstamos
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+
+        <h2>
+
+            Gestión de préstamos
+
+        </h2>
+
+
+
+
+        <div>
+
+
+            <a
+            href="{{ url_for('dashboard') }}"
+            class="btn btn-dark">
+
+                Dashboard
+
+            </a>
+
+
+
+            <a
+            href="{{ url_for('panel_admin') }}"
+            class="btn btn-primary">
+
+                Libros
+
+            </a>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    {% if prestamos %}
+
+
+
+
+
+    <div class="table-responsive">
+
+
+
+        <table class="table table-bordered table-striped align-middle">
+
+
+
+            <thead class="table-dark">
+
+
+                <tr>
+
+
+                    <th>
+                        Libro
+                    </th>
+
+
+                    <th>
+                        Estudiante
+                    </th>
+
+
+                    <th>
+                        Contacto
+                    </th>
+
+
+                    <th>
+                        Fecha solicitud
+                    </th>
+
+
+                    <th>
+                        Fecha devolución
+                    </th>
+
+
+                    <th>
+                        Estado
+                    </th>
+
+
+                    <th>
+                        Acciones
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+            <tbody>
+
+
+
+            {% for prestamo in prestamos %}
+
+
+
+
+
+                <tr>
+
+
+
+
+                    <td>
+
+
+                        <strong>
+
+                            {{ prestamo.titulo }}
+
+                        </strong>
+
+
+                        <br>
+
+
+                        <small>
+
+                            {{ prestamo.autor }}
+
+                        </small>
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+                        {{ prestamo.nombre }}
+
+
+                        <br>
+
+
+                        <small>
+
+                            Cédula:
+                            {{ prestamo.cedula }}
+
+                        </small>
+
+
+                        <br>
+
+
+                        <small>
+
+                            Carnet:
+                            {{ prestamo.carnet }}
+
+                        </small>
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+                        {{ prestamo.telefono }}
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+                        {{ prestamo.fecha_solicitud }}
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+                        {{ prestamo.fecha_devolucion }}
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+
+                        {% if prestamo.estado == "Pendiente" %}
+
+
+
+                            <span class="badge bg-warning text-dark">
+
+                                Pendiente
+
+                            </span>
+
+
+
+                        {% elif prestamo.estado == "Aprobado" %}
+
+
+
+                            <span class="badge bg-success">
+
+                                Aprobado
+
+                            </span>
+
+
+
+                        {% elif prestamo.estado == "Devuelto" %}
+
+
+
+                            <span class="badge bg-primary">
+
+                                Devuelto
+
+                            </span>
+
+
+
+                        {% elif prestamo.estado == "Rechazado" %}
+
+
+
+                            <span class="badge bg-danger">
+
+                                Rechazado
+
+                            </span>
+
+
+
+                        {% else %}
+
+
+
+                            <span class="badge bg-secondary">
+
+                                {{ prestamo.estado }}
+
+                            </span>
+
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+
+                        {% if prestamo.estado == "Pendiente" %}
+
+
+
+                        <a
+                        href="{{ url_for('aceptar_prestamo', id=prestamo.id) }}"
+                        class="btn btn-success btn-sm mb-1">
+
+                            Aprobar
+
+                        </a>
+
+
+
+
+
+                        <a
+                        href="{{ url_for('rechazar', id=prestamo.id) }}"
+                        class="btn btn-danger btn-sm mb-1">
+
+                            Rechazar
+
+                        </a>
+
+
+
+                        {% endif %}
+
+
+
+
+
+                        {% if prestamo.estado == "Aprobado" %}
+
+
+
+                        <a
+                        href="{{ url_for('devolver', id=prestamo.id) }}"
+                        class="btn btn-primary btn-sm mb-1">
+
+                            Devolver
+
+                        </a>
+
+
+
+                        {% endif %}
+
+
+
+
+
+                        {% if prestamo.estado == "Devuelto" or prestamo.estado == "Rechazado" %}
+
+
+
+                        <a
+                        href="{{ url_for('eliminar_prestamo_admin', id=prestamo.id) }}"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Desea eliminar este registro de préstamo?');">
+
+                            Eliminar
+
+                        </a>
+
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+
+            {% endfor %}
+
+
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+
+
+    {% else %}
+
+
+
+
+
+    <div class="alert alert-info">
+
+        No hay préstamos registrados.
+
+    </div>
+
+
+
+
+
+    {% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

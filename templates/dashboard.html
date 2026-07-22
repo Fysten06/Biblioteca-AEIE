@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+
+Dashboard
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+
+        <h2>
+
+            Panel principal
+
+        </h2>
+
+
+
+        <a
+        href="{{ url_for('logout') }}"
+        class="btn btn-danger">
+
+            Cerrar sesión
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="row g-4">
+
+
+
+
+
+        <div class="col-md-3">
+
+
+
+            <div class="card text-center shadow">
+
+
+
+                <div class="card-body">
+
+
+
+                    <h5 class="card-title">
+
+                        Total de libros
+
+                    </h5>
+
+
+
+                    <h2>
+
+                        {{ estadisticas.total_libros }}
+
+                    </h2>
+
+
+
+                    <a
+                    href="{{ url_for('panel_admin') }}"
+                    class="btn btn-primary">
+
+                        Ver libros
+
+                    </a>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-3">
+
+
+
+            <div class="card text-center shadow">
+
+
+
+                <div class="card-body">
+
+
+
+                    <h5 class="card-title">
+
+                        Solicitudes pendientes
+
+                    </h5>
+
+
+
+                    <h2>
+
+                        {{ estadisticas.pendientes }}
+
+                    </h2>
+
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-warning">
+
+                        Revisar
+
+                    </a>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-3">
+
+
+
+            <div class="card text-center shadow">
+
+
+
+                <div class="card-body">
+
+
+
+                    <h5 class="card-title">
+
+                        Libros prestados
+
+                    </h5>
+
+
+
+                    <h2>
+
+                        {{ estadisticas.activos }}
+
+                    </h2>
+
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-success">
+
+                        Gestionar
+
+                    </a>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-3">
+
+
+
+            <div class="card text-center shadow">
+
+
+
+                <div class="card-body">
+
+
+
+                    <h5 class="card-title">
+
+                        Libros atrasados
+
+                    </h5>
+
+
+
+                    <h2>
+
+                        {{ estadisticas.atrasados }}
+
+                    </h2>
+
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-danger">
+
+                        Revisar
+
+                    </a>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="mt-5">
+
+
+
+        <h4>
+
+            Accesos rápidos
+
+        </h4>
+
+
+
+
+
+        <div class="d-flex gap-3 mt-3">
+
+
+
+
+
+            <a
+            href="{{ url_for('panel_admin') }}"
+            class="btn btn-primary">
+
+                Administración de libros
+
+            </a>
+
+
+
+
+
+            <a
+            href="{{ url_for('admin_prestamos') }}"
+            class="btn btn-success">
+
+                Gestión de préstamos
+
+            </a>
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
