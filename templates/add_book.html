@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Agregar libro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="container mt-5">
+
+
+    <div class="card shadow">
+
+
+        <div class="card-header bg-success text-white">
+
+            <h3 class="mb-0">
+                Agregar nuevo libro
+            </h3>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+            <form method="POST" enctype="multipart/form-data">
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Título
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="titulo"
+                    required>
+
+                </div>
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Autor
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="autor"
+                    required>
+
+                </div>
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Editorial
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="editorial">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Categoría
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="categoria"
+                    value="General">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Año de publicación
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="anio">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        ISBN
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="isbn">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Cantidad de libros
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="cantidad"
+                    min="1"
+                    required>
+
+
+                    <small class="text-muted">
+                        La cantidad disponible se establecerá automáticamente.
+                    </small>
+
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Descripción
+                    </label>
+
+
+                    <textarea
+                    class="form-control"
+                    name="descripcion"
+                    rows="4"></textarea>
+
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Portada del libro
+                    </label>
+
+
+                    <input
+                    type="file"
+                    class="form-control"
+                    name="imagen"
+                    accept=".png,.jpg,.jpeg">
+
+
+                    <small class="text-muted">
+                        Formatos permitidos: PNG, JPG y JPEG.
+                    </small>
+
+
+                </div>
+
+
+
+
+                <button
+                type="submit"
+                class="btn btn-success">
+
+                    Guardar libro
+
+                </button>
+
+
+
+                <a
+                href="{{ url_for('panel_admin') }}"
+                class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

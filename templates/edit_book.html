@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Editar libro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="container mt-5">
+
+
+    <div class="card shadow">
+
+
+        <div class="card-header bg-warning">
+
+            <h3 class="mb-0">
+                Editar libro
+            </h3>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+            <form method="POST" enctype="multipart/form-data">
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Título
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="titulo"
+                    value="{{ libro.titulo }}"
+                    required>
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Autor
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="autor"
+                    value="{{ libro.autor }}"
+                    required>
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Editorial
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="editorial"
+                    value="{{ libro.editorial }}">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Categoría
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="categoria"
+                    value="{{ libro.categoria }}">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Año de publicación
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="anio"
+                    value="{{ libro.anio }}">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        ISBN
+                    </label>
+
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="isbn"
+                    value="{{ libro.isbn }}">
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Cantidad total
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="cantidad"
+                    min="1"
+                    value="{{ libro.cantidad }}"
+                    required>
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Libros disponibles
+                    </label>
+
+
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="disponibles"
+                    min="0"
+                    max="{{ libro.cantidad }}"
+                    value="{{ libro.disponibles }}"
+                    required>
+
+
+                    <small class="text-muted">
+                        Los disponibles no pueden superar la cantidad total.
+                    </small>
+
+
+                </div>
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Descripción
+                    </label>
+
+
+                    <textarea
+                    class="form-control"
+                    name="descripcion"
+                    rows="4">{{ libro.descripcion }}</textarea>
+
+
+                </div>
+
+
+
+
+                {% if libro.imagen %}
+
+
+                <div class="mb-3">
+
+
+                    <label class="form-label">
+                        Portada actual
+                    </label>
+
+
+                    <br>
+
+
+                    <img
+                    src="/{{ libro.imagen }}"
+                    width="150"
+                    class="img-thumbnail">
+
+
+                </div>
+
+
+                {% endif %}
+
+
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Cambiar portada
+                    </label>
+
+
+                    <input
+                    type="file"
+                    class="form-control"
+                    name="imagen"
+                    accept=".png,.jpg,.jpeg">
+
+
+                    <small class="text-muted">
+                        Si no selecciona una imagen se mantendrá la actual.
+                    </small>
+
+
+                </div>
+
+
+
+
+                <button
+                type="submit"
+                class="btn btn-warning">
+
+                    Guardar cambios
+
+                </button>
+
+
+
+
+                <a
+                href="{{ url_for('panel_admin') }}"
+                class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

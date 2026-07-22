@@ -2,221 +2,336 @@
 
 
 {% block title %}
-Administrador
+
+Administración de libros
+
 {% endblock %}
 
 
 
 {% block content %}
 
-<div class="container">
 
 
-    <!-- Encabezado -->
-
-    <div class="text-center mb-5">
-
-        <h1 class="display-5 fw-bold">
-            Panel de Administrador
-        </h1>
-
-        <p class="lead text-muted">
-            Gestión del inventario bibliográfico
-        </p>
-
-    </div>
+<div class="container mt-5">
 
 
 
-    <!-- Opciones del administrador -->
-
-    <div class="row g-4 justify-content-center">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
 
-
-        <!-- Agregar libros -->
-
-        <div class="col-md-4">
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
+        <h2>
+            Administración de libros
+        </h2>
 
 
-                <div class="card-body">
+
+        <div>
 
 
-                    <i class="bi bi-plus-circle display-3 text-primary"></i>
+            <a 
+            href="{{ url_for('dashboard') }}"
+            class="btn btn-dark">
+
+                Dashboard
+
+            </a>
 
 
-                    <h3 class="card-title fw-bold mt-4">
 
-                        Agregar libros
+            <a 
+            href="{{ url_for('admin_prestamos') }}"
+            class="btn btn-success">
 
-                    </h3>
+                Préstamos
 
-
-                    <p class="card-text text-muted">
-
-                        Registra nuevos libros dentro del sistema
-                        indicando título, autor, categoría y disponibilidad.
-
-                    </p>
+            </a>
 
 
-                    <a href="#" class="btn btn-primary">
-
-                        <i class="bi bi-plus-lg"></i>
-
-                        Agregar libro
-
-                    </a>
 
 
-                </div>
+            <a 
+            href="{{ url_for('agregar') }}"
+            class="btn btn-primary">
 
+                Agregar libro
 
-            </div>
+            </a>
 
 
         </div>
-
-
-
-
-
-        <!-- Administrar libros -->
-
-
-        <div class="col-md-4">
-
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
-
-
-                <div class="card-body">
-
-
-                    <i class="bi bi-journal-bookmark display-3 text-primary"></i>
-
-
-
-                    <h3 class="card-title fw-bold mt-4">
-
-                        Inventario
-
-                    </h3>
-
-
-
-                    <p class="card-text text-muted">
-
-                        Consulta, modifica o elimina libros
-                        registrados actualmente en la biblioteca.
-
-                    </p>
-
-
-
-                    <a href="#" class="btn btn-outline-primary">
-
-
-                        <i class="bi bi-gear"></i>
-
-                        Administrar
-
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-
-
-        <!-- Estadísticas -->
-
-
-        <div class="col-md-4">
-
-
-            <div class="card h-100 shadow-sm border-0 text-center p-4">
-
-
-                <div class="card-body">
-
-
-                    <i class="bi bi-bar-chart display-3 text-primary"></i>
-
-
-
-                    <h3 class="card-title fw-bold mt-4">
-
-                        Estadísticas
-
-                    </h3>
-
-
-
-                    <p class="card-text text-muted">
-
-                        Visualiza información general del inventario
-                        y disponibilidad de libros.
-
-                    </p>
-
-
-
-                    <a href="#" class="btn btn-outline-primary">
-
-
-                        <i class="bi bi-graph-up"></i>
-
-                        Ver estadísticas
-
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
 
 
     </div>
 
 
 
-    <!-- Botón volver -->
 
 
-    <div class="text-center mt-5">
+    {% if libros %}
 
 
-        <a href="/" class="btn btn-secondary">
 
-            <i class="bi bi-arrow-left"></i>
+    <div class="table-responsive">
 
-            Volver al inicio
 
-        </a>
+
+        <table class="table table-bordered table-striped align-middle">
+
+
+
+            <thead class="table-dark">
+
+
+                <tr>
+
+
+                    <th>
+                        Imagen
+                    </th>
+
+
+                    <th>
+                        Título
+                    </th>
+
+
+                    <th>
+                        Autor
+                    </th>
+
+
+                    <th>
+                        Categoría
+                    </th>
+
+
+                    <th>
+                        Existencias
+                    </th>
+
+
+                    <th>
+                        Disponibles
+                    </th>
+
+
+                    <th>
+                        Acciones
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+            <tbody>
+
+
+
+            {% for libro in libros %}
+
+
+
+                <tr>
+
+
+
+                    <td>
+
+
+
+                        {% if libro.imagen %}
+
+
+
+                        <img 
+                        src="/{{ libro.imagen }}"
+                        width="70"
+                        height="90"
+                        style="object-fit: cover;">
+
+
+
+                        {% else %}
+
+
+
+                        Sin imagen
+
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+                        {{ libro.titulo }}
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+                        {{ libro.autor }}
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+                        {{ libro.categoria }}
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+                        {{ libro.cantidad }}
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+
+                        {% if libro.disponibles > 0 %}
+
+
+
+                        <span class="badge bg-success">
+
+                            {{ libro.disponibles }}
+
+                        </span>
+
+
+
+                        {% else %}
+
+
+
+                        <span class="badge bg-danger">
+
+                            No disponible
+
+                        </span>
+
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+
+                        <a 
+                        href="{{ url_for('editar', id=libro.id) }}"
+                        class="btn btn-warning btn-sm">
+
+                            Editar
+
+                        </a>
+
+
+
+
+
+                        <a 
+                        href="{{ url_for('eliminar', id=libro.id) }}"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Está seguro de eliminar este libro?');">
+
+                            Eliminar
+
+                        </a>
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+
+            {% endfor %}
+
+
+
+
+
+            </tbody>
+
+
+
+        </table>
+
 
 
     </div>
+
+
+
+
+
+    {% else %}
+
+
+
+    <div class="alert alert-info">
+
+        No hay libros registrados.
+
+    </div>
+
+
+
+    {% endif %}
+
+
 
 
 
 </div>
+
 
 
 {% endblock %}

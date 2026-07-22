@@ -1,0 +1,683 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+
+Dashboard
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+
+        <h2>
+
+            Panel principal
+
+        </h2>
+
+
+
+        <a
+        href="{{ url_for('logout') }}"
+        class="btn btn-danger">
+
+            Cerrar sesión
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+
+    <!-- TARJETAS DE ESTADISTICAS -->
+
+
+
+    <div class="row g-4">
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Total de libros
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.total_libros }}
+
+                    </h2>
+
+
+                    <a
+                    href="{{ url_for('panel_admin') }}"
+                    class="btn btn-primary">
+
+                        Ver libros
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Libros disponibles
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.disponibles }}
+
+                    </h2>
+
+
+                    <span class="badge bg-success">
+
+                        Disponibles
+
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Total préstamos
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.total_prestamos }}
+
+                    </h2>
+
+
+                    <span class="badge bg-secondary">
+
+                        Registrados
+
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Solicitudes pendientes
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.pendientes }}
+
+                    </h2>
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-warning">
+
+                        Revisar
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Libros prestados
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.activos }}
+
+                    </h2>
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-success">
+
+                        Gestionar
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-4">
+
+
+            <div class="card shadow text-center">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+
+                        Libros atrasados
+
+                    </h5>
+
+
+                    <h2>
+
+                        {{ estadisticas.atrasados }}
+
+                    </h2>
+
+
+                    <a
+                    href="{{ url_for('admin_prestamos') }}"
+                    class="btn btn-danger">
+
+                        Revisar
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+    <!-- ULTIMOS PRESTAMOS -->
+
+
+
+    <div class="mt-5">
+
+
+        <h4>
+
+            Últimos préstamos
+
+        </h4>
+
+
+
+        <div class="table-responsive mt-3">
+
+
+            <table class="table table-striped table-bordered">
+
+
+                <thead class="table-dark">
+
+
+                    <tr>
+
+
+                        <th>
+
+                            Libro
+
+                        </th>
+
+
+                        <th>
+
+                            Estudiante
+
+                        </th>
+
+
+                        <th>
+
+                            Fecha
+
+                        </th>
+
+
+                        <th>
+
+                            Estado
+
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody>
+
+
+
+                {% for prestamo in ultimos_prestamos %}
+
+
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ prestamo.titulo }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ prestamo.nombre }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ prestamo.fecha_solicitud }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            {% if prestamo.estado == "Aprobado" %}
+
+
+                                <span class="badge bg-success">
+
+                                    Aprobado
+
+                                </span>
+
+
+                            {% elif prestamo.estado == "Pendiente" %}
+
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Pendiente
+
+                                </span>
+
+
+                            {% elif prestamo.estado == "Devuelto" %}
+
+
+                                <span class="badge bg-primary">
+
+                                    Devuelto
+
+                                </span>
+
+
+                            {% elif prestamo.estado == "Rechazado" %}
+
+
+                                <span class="badge bg-danger">
+
+                                    Rechazado
+
+                                </span>
+
+
+                            {% else %}
+
+
+                                <span class="badge bg-secondary">
+
+                                    {{ prestamo.estado }}
+
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                {% else %}
+
+
+
+                    <tr>
+
+
+                        <td colspan="4" class="text-center">
+
+                            No hay préstamos registrados.
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                {% endfor %}
+
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- LIBROS POPULARES -->
+
+
+
+    <div class="mt-5">
+
+
+        <h4>
+
+            Libros más solicitados
+
+        </h4>
+
+
+
+        <div class="table-responsive mt-3">
+
+
+            <table class="table table-bordered">
+
+
+                <thead class="table-dark">
+
+
+                    <tr>
+
+
+                        <th>
+
+                            Libro
+
+                        </th>
+
+
+                        <th>
+
+                            Cantidad de solicitudes
+
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody>
+
+
+
+                {% for libro in libros_populares %}
+
+
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ libro.titulo }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ libro.cantidad }}
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                {% else %}
+
+
+
+                    <tr>
+
+
+                        <td colspan="2" class="text-center">
+
+                            No hay datos todavía.
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                {% endfor %}
+
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- ACCESOS RAPIDOS -->
+
+
+
+    <div class="mt-5 mb-5">
+
+
+        <h4>
+
+            Accesos rápidos
+
+        </h4>
+
+
+
+        <div class="d-flex gap-3 mt-3">
+
+
+            <a
+            href="{{ url_for('panel_admin') }}"
+            class="btn btn-primary">
+
+                Administración de libros
+
+            </a>
+
+
+
+            <a
+            href="{{ url_for('admin_prestamos') }}"
+            class="btn btn-success">
+
+                Gestión de préstamos
+
+            </a>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}
